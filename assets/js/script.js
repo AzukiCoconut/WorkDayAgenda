@@ -1,6 +1,42 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+var container = $('.container-lg');
+
+
+for (var i=9; i<17; i++){
+  var hourBlockEl = $('<div>');
+  var idValue = 'hour-' + i;
+  hourBlockEl.attr('id', idValue);
+  hourBlockEl.addClass('row time-block');
+
+  console.log(hourBlockEl);
+  var hour = $('<div>');
+  hour.addClass('col-2 col-md-1 hour text-center py-3');
+  var hourValue;
+  if (i < 12){
+    hourValue = i +"AM";
+  } else {
+    hourValue = i + "PM";
+  }
+  hour.text(hourValue);
+
+  var textEl = $('<textarea>');
+  textEl.addClass('col-8 col-md-10 description');
+  textEl.attr('rows', '3');
+
+  var saveBtn = $('<button>');
+  saveBtn.addClass('btn saveBtn col-2 col-md-1');
+  saveBtn.attr('aria-label', 'save');
+
+  var icon = $('<i>');
+  icon.addClass('fas fa-save');
+  icon.attr('aria-hidden', 'true');
+
+  hourBlockEl.append(hour);
+  hourBlockEl.append(textEl);
+  saveBtn.append(icon);
+  hourBlockEl.append(saveBtn);
+  container.append(hourBlockEl);
+}
+
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
