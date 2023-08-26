@@ -38,6 +38,27 @@ for (var i=9; i<17; i++){
 }
 
 $(function () {
+  
+  $(".btn").click(buttonClickEvent);
+
+  function buttonClickEvent(event){
+    var hourClicked = $(this).parent();
+    var messageArea = $(this).parent().children().eq(1).val();
+    let Item = {"hour" : hourClicked.attr('id'), "message" : messageArea};
+    let agendaItems = JSON.parse(localStorage.getItem('agendaItems'));
+    if (agendaItems === null) {
+      var agendaStuff = [];
+      agendaStuff.push(Item);
+      localStorage.setItem('agendaItems', JSON.stringify(agendaStuff));
+    } else {
+      var agendaStuff = JSON.parse(localStorage.getItem('agendaItems'));
+      console.log(agendaItems);
+      agendaStuff.push(Item);
+      localStorage.setItem('agendaItems', JSON.stringify(agendaStuff));
+    }
+  }
+
+  
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -50,10 +71,11 @@ $(function () {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
-  //
+  // 
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+
 });
