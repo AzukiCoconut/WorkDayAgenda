@@ -1,20 +1,23 @@
 var container = $('.container-lg');
+var dateText = $('#currentDay');
 
 
-for (var i=9; i<17; i++){
+for (var i=9; i<=17; i++){
   var hourBlockEl = $('<div>');
   var idValue = 'hour-' + i;
   hourBlockEl.attr('id', idValue);
   hourBlockEl.addClass('row time-block');
 
-  console.log(hourBlockEl);
+
   var hour = $('<div>');
   hour.addClass('col-2 col-md-1 hour text-center py-3');
   var hourValue;
   if (i < 12){
     hourValue = i +"AM";
-  } else {
+  } else if (i == 12) {
     hourValue = i + "PM";
+  } else {
+    hourValue = i-12 + "PM";
   }
   hour.text(hourValue);
 
@@ -52,28 +55,35 @@ $(function () {
       localStorage.setItem('agendaItems', JSON.stringify(agendaStuff));
     } else {
       var agendaStuff = JSON.parse(localStorage.getItem('agendaItems'));
-      console.log(agendaItems);
       agendaStuff.push(Item);
       localStorage.setItem('agendaItems', JSON.stringify(agendaStuff));
     }
   }
 
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  // 
-
-  
   var agendaItems = JSON.parse(localStorage.getItem('agendaItems'));
-  if (agendaItems.length !== 0) {
+  if (agendaItems !== null) {
     for (var i = 0; i<agendaItems.length; i++){
       var id = '#' + agendaItems[i].hour;
       container.children(id).children().eq(1).val(agendaItems[i].message);
     }
   }
-  // TODO: Add code to display the current date in the header of the page.
+
+  var currentHour = dayjs().hour();
+  console.log(currentHour);
+  for (var i=0; i<container.children().length;i++){
+    var hourID = container.children().eq(i).attr('id');
+    var hour = hourID.substring(5, hourID.length);
+    console.log(hour.length);
+    if (hour.valueOf() < currentHour){
+      container.children().eq(i).addClass("past");
+    } else if (hour.valueOf() == currentHour){
+      container.children().eq(i).addClass("present");
+    } else if (hour.valueOf() > currentHour) {
+      container.children().eq(i).addClass("future");
+    }
+  }
+  
+  var today = dayjs().format("dddd MMMM D, YYYY");
+  dateText.text(today);
 
 });
