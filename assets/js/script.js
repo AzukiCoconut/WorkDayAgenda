@@ -65,6 +65,8 @@ $(function () {
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
   // 
+
+  
   var agendaItems = JSON.parse(localStorage.getItem('agendaItems'));
   if (agendaItems.length !== 0) {
     for (var i = 0; i<agendaItems.length; i++){
